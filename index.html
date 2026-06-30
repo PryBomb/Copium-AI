@@ -452,8 +452,8 @@
             </div>
             <div class="sidebar-card">
                 <div class="sidebar-title">🔌 Engine</div>
-                <div class="stat-row" style="font-size:12px;color:#4a3a7a">Claude Sonnet 4.6<br><span
-                        style="font-size:11px;color:#9a7aaa;font-weight:600">via Anthropic API</span></div>
+                <div class="stat-row" style="font-size:12px;color:#4a3a7a">Gemini 2.5 Flash<br><span
+                        style="font-size:11px;color:#9a7aaa;font-weight:600">via Google Gemini API</span></div>
             </div>
             <button class="reset-btn" onclick="resetSession()">🔄 New session</button>
         </div>
@@ -634,18 +634,19 @@ SECURITY RULES:
             history.push({ role: 'user', content: enriched });
 
             try {
-                const res = await fetch('https://api.anthropic.com/v1/messages', {
+                const res = await fetch('http://localhost:8000/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        model: 'claude-sonnet-4-6',
-                        max_tokens: 1000,
-                        system: SYS,
-                        messages: history
-                    })
+                    body: JSON.stringify({ messages: history })
                 });
+                if (!res.ok) {
+                    throw new Error(`Server error: ${res.status} ${res.statusText}`);
+                }
                 const data = await res.json();
-                const reply = data.content[0].text;
+                if (data.error && !data.reply) {
+                    throw new Error(data.error);
+                }
+                const reply = data.reply;
                 history.push({ role: 'assistant', content: reply });
                 removeLoading();
                 renderMsg('ai', reply);

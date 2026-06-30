@@ -1,3 +1,4 @@
+google-generativeai
 google-genai
 google-adk
 streamlit

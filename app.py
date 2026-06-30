@@ -4,8 +4,7 @@ import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
 from dotenv import load_dotenv
-from google import genai
-from google.genai import types
+import google.generativeai as genai
 
 # Load environment variables
 load_dotenv()
@@ -153,30 +152,27 @@ class CopiumHandler(BaseHTTPRequestHandler):
                 return
 
             try:
-                # Initialize Google GenAI client
+                # Configure the google-generativeai SDK (supports AQ. tokens)
                 gemini_key = os.environ.get("GEMINI_API_KEY")
-                client = genai.Client(api_key=gemini_key)
+                genai.configure(api_key=gemini_key)
+                
+                # Build the model with system instruction
+                model = genai.GenerativeModel(
+                    model_name="gemini-2.5-flash",
+                    system_instruction=SYSTEM_PROMPT,
+                    generation_config=genai.types.GenerationConfig(
+                        temperature=0.7,
+                        max_output_tokens=1500,
+                    )
+                )
                 
                 # Format messages for Gemini API
                 contents = []
                 for msg in messages:
                     role = "model" if msg["role"] == "assistant" else "user"
-                    contents.append(
-                        types.Content(
-                            role=role,
-                            parts=[types.Part(text=msg["content"])]
-                        )
-                    )
+                    contents.append({"role": role, "parts": [msg["content"]]})
                 
-                response = client.models.generate_content(
-                    model="gemini-2.0-flash",
-                    contents=contents,
-                    config=types.GenerateContentConfig(
-                        system_instruction=SYSTEM_PROMPT,
-                        temperature=0.7,
-                        max_output_tokens=1500,
-                    )
-                )
+                response = model.generate_content(contents)
                 
                 reply_text = response.text
                 response_body = json.dumps({"reply": reply_text, "error": None})
