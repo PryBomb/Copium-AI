@@ -13,117 +13,246 @@
             padding: 0
         }
 
+        :root {
+            --cream: #f7f4ee;
+            --cream-deep: #efeade;
+            --sage: #b9c9af;
+            --sage-deep: #9aae8d;
+            --sky: #cfe3ea;
+            --sky-deep: #b9d4dd;
+            --lavender: #e3deea;
+            --lavender-deep: #d2cadf;
+            --ink: #4a4744;
+            --ink-soft: #8a8580;
+            --shadow-dark: rgba(150, 140, 120, 0.35);
+            --shadow-light: rgba(255, 255, 255, 0.85);
+        }
+
+        body.dark {
+            --cream: #2b2a33;
+            --cream-deep: #232229;
+            --sage: #5c6f56;
+            --sage-deep: #4a5a45;
+            --sky: #3d5763;
+            --sky-deep: #324652;
+            --lavender: #4a4358;
+            --lavender-deep: #3c3649;
+            --ink: #e8e4dc;
+            --ink-soft: #9a958e;
+            --shadow-dark: rgba(0, 0, 0, 0.55);
+            --shadow-light: rgba(255, 255, 255, 0.05);
+        }
+
+        body,
+        .pill,
+        .send-btn,
+        .reset-btn,
+        .logo-badge,
+        .avatar,
+        .bubble,
+        .sidebar-card,
+        .chat-wrap,
+        textarea,
+        .analysis-card,
+        .security-box,
+        .phase-tag,
+        .dot {
+            transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
         body {
             font-family: 'Nunito', sans-serif;
-            background: #f0e8ff;
+            background: var(--cream);
             min-height: 100vh;
             display: flex;
-            flex-direction: column
+            flex-direction: column;
+            color: var(--ink);
+            overflow: hidden;
+        }
+
+        /* ===== reusable clay shadow ===== */
+        .clay-out {
+            box-shadow: 7px 7px 16px var(--shadow-dark), -7px -7px 16px var(--shadow-light);
+            border: none
+        }
+
+        .clay-in {
+            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+            border: none
         }
 
         .header {
-            background: #c9b3ff;
-            border-bottom: 3px solid #1a1a2e;
-            padding: 14px 24px;
+            background: var(--cream);
+            padding: 18px 28px;
             display: flex;
             align-items: center;
-            gap: 14px
+            gap: 16px;
+            flex-shrink: 0;
         }
 
         .logo-badge {
-            background: #fff;
-            border: 3px solid #1a1a2e;
-            box-shadow: 3px 3px 0 #1a1a2e;
-            border-radius: 16px;
-            width: 48px;
-            height: 48px;
+            background: linear-gradient(135deg, #cfe0c5 0%, var(--sage) 45%, #a8c099 100%);
+            border-radius: 46% 54% 60% 40% / 50% 45% 55% 50%;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 7px 7px 16px var(--shadow-dark), -7px -7px 16px var(--shadow-light), inset 2px 3px 6px rgba(255, 255, 255, 0.6), inset -3px -4px 8px rgba(110, 130, 95, 0.35);
+            animation: blobmorph 9s ease-in-out infinite;
+        }
+
+        .logo-badge::before {
+            content: '';
+            position: absolute;
+            top: 8%;
+            left: 14%;
+            width: 38%;
+            height: 28%;
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 50%;
+            filter: blur(3px);
+            transform: rotate(-20deg);
+        }
+
+        .logo-badge svg {
+            width: 30px;
+            height: 30px;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 1px 1px rgba(60, 70, 50, 0.25));
+        }
+
+        @keyframes blobmorph {
+
+            0%,
+            100% {
+                border-radius: 46% 54% 60% 40% / 50% 45% 55% 50%;
+            }
+
+            33% {
+                border-radius: 58% 42% 45% 55% / 40% 58% 42% 60%;
+            }
+
+            66% {
+                border-radius: 40% 60% 52% 48% / 60% 48% 52% 40%;
+            }
         }
 
         .header-title {
             font-size: 22px;
             font-weight: 900;
-            color: #1a1a2e
+            color: var(--ink)
         }
 
         .header-sub {
             font-size: 13px;
             font-weight: 600;
-            color: #4a3a7a;
-            margin-top: 1px
+            color: var(--ink-soft);
+            margin-top: 2px
+        }
+
+        .theme-toggle {
+            margin-left: auto;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            border: none;
+            cursor: pointer;
+            background: var(--lavender);
+            border-radius: 44% 56% 58% 42% / 50% 46% 54% 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light), inset 1px 2px 4px rgba(255, 255, 255, 0.5);
+            transition: all 0.25s, background 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .theme-toggle:hover {
+            box-shadow: 3px 3px 8px var(--shadow-dark), -3px -3px 8px var(--shadow-light);
+            transform: translate(2px, 2px) rotate(8deg);
+        }
+
+        .theme-toggle:active {
+            box-shadow: inset 3px 3px 8px var(--shadow-dark), inset -3px -3px 8px var(--shadow-light);
+            transform: translate(0, 0);
         }
 
         .phase-bar {
-            background: #ffe5b4;
-            border-bottom: 3px solid #1a1a2e;
-            padding: 10px 24px;
+            background: var(--cream);
+            padding: 6px 28px 18px;
             display: flex;
-            gap: 10px;
-            align-items: center
+            gap: 12px;
+            align-items: center;
+            flex-shrink: 0;
+            flex-wrap: wrap;
         }
 
         .phase-label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
-            color: #7a5a00;
+            color: var(--ink-soft);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             margin-right: 4px
         }
 
         .pill {
-            padding: 5px 16px;
+            padding: 9px 20px;
             border-radius: 50px;
             font-size: 12px;
             font-weight: 800;
-            background: #fff;
-            color: #888;
-            border: 2.5px solid #ccc;
-            box-shadow: 2px 2px 0 #ccc;
-            transition: all 0.25s
+            background: var(--cream);
+            color: var(--ink-soft);
+            box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+            transition: all 0.3s
         }
 
         .pill.active {
-            background: #c9b3ff;
-            color: #3a1a8a;
-            border-color: #3a1a8a;
-            box-shadow: 3px 3px 0 #3a1a8a
+            background: var(--sky);
+            color: #2e4a52;
+            box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light);
         }
 
         .pill.done {
-            background: #b3f0c9;
-            color: #0a5a2a;
-            border-color: #0a5a2a;
-            box-shadow: 3px 3px 0 #0a5a2a
+            background: var(--sage);
+            color: #2f4326;
+            box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light);
         }
 
         .layout {
             display: flex;
             flex: 1;
+            min-height: 0;
             overflow: hidden;
-            height: calc(100vh - 109px)
+            padding: 0 24px 24px;
+            gap: 20px
         }
 
         .sidebar {
-            width: 200px;
-            background: #ffd6e0;
-            border-right: 3px solid #1a1a2e;
-            padding: 16px 12px;
+            width: 210px;
+            flex-shrink: 0;
+            background: transparent;
+            padding: 4px 0;
             display: flex;
             flex-direction: column;
-            gap: 12px
+            gap: 16px
         }
 
         .sidebar-card {
-            background: #fff;
-            border-radius: 16px;
-            border: 2.5px solid #1a1a2e;
-            box-shadow: 3px 3px 0 #1a1a2e;
-            padding: 12px 14px
+            background: var(--lavender);
+            border-radius: 26px;
+            padding: 16px 18px;
+            box-shadow: 7px 7px 16px var(--shadow-dark), -7px -7px 16px var(--shadow-light);
         }
 
         .sidebar-title {
@@ -131,64 +260,68 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            color: #6a2a3a;
-            margin-bottom: 8px
+            color: #5a5266;
+            margin-bottom: 10px
         }
 
         .stat-row {
             font-size: 13px;
             font-weight: 700;
-            color: #1a1a2e;
-            margin-top: 4px
+            color: var(--ink);
+            margin-top: 6px
         }
 
         .stat-row span {
-            color: #7a3aaa;
-            font-size: 16px;
+            color: #6a5e8a;
+            font-size: 17px;
             font-weight: 900
         }
 
         .reset-btn {
-            background: #ffb3c6;
-            border: 2.5px solid #1a1a2e;
-            box-shadow: 3px 3px 0 #1a1a2e;
-            border-radius: 14px;
-            padding: 10px;
+            background: var(--sky);
+            border: none;
+            border-radius: 20px;
+            padding: 13px;
             font-size: 13px;
             font-weight: 800;
             font-family: 'Nunito', sans-serif;
-            color: #1a1a2e;
+            color: #2e4a52;
             cursor: pointer;
             width: 100%;
             margin-top: auto;
-            transition: all 0.15s
+            box-shadow: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
+            transition: all 0.2s
         }
 
         .reset-btn:hover {
-            box-shadow: 2px 2px 0 #1a1a2e;
-            transform: translate(1px, 1px)
+            box-shadow: 3px 3px 8px var(--shadow-dark), -3px -3px 8px var(--shadow-light);
+            transform: translate(2px, 2px)
         }
 
         .reset-btn:active {
-            box-shadow: none;
-            transform: translate(3px, 3px)
+            box-shadow: inset 3px 3px 8px var(--shadow-dark), inset -3px -3px 8px var(--shadow-light);
+            transform: translate(0, 0)
         }
 
         .chat-wrap {
             flex: 1;
+            min-width: 0;
             display: flex;
             flex-direction: column;
-            background: #f7f0ff;
-            overflow: hidden
+            background: var(--sky);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 9px 9px 20px var(--shadow-dark), -9px -9px 20px var(--shadow-light);
         }
 
         .messages {
             flex: 1;
+            min-height: 0;
             overflow-y: auto;
-            padding: 20px 24px;
+            padding: 26px 28px;
             display: flex;
             flex-direction: column;
-            gap: 14px
+            gap: 18px
         }
 
         .messages::-webkit-scrollbar {
@@ -196,13 +329,13 @@
         }
 
         .messages::-webkit-scrollbar-thumb {
-            background: #c9b3ff;
+            background: var(--sky-deep);
             border-radius: 6px
         }
 
         .msg {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             max-width: 100%
         }
 
@@ -211,76 +344,86 @@
         }
 
         .avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            border: 2.5px solid #1a1a2e;
-            box-shadow: 2px 2px 0 #1a1a2e;
+            width: 42px;
+            height: 42px;
+            border-radius: 48% 52% 55% 45% / 52% 48% 52% 48%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 17px;
+            font-size: 18px;
             flex-shrink: 0;
-            background: #fff
+            background: var(--cream);
+            box-shadow: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light), inset 1px 2px 4px rgba(255, 255, 255, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .msg.ai .avatar {
+            background: linear-gradient(135deg, #cfe0c5 0%, var(--sage) 100%);
+        }
+
+        .msg.ai .avatar svg {
+            width: 22px;
+            height: 22px;
+            filter: drop-shadow(0 1px 1px rgba(60, 70, 50, 0.25));
         }
 
         .bubble {
-            background: #fff;
-            border: 2.5px solid #1a1a2e;
-            box-shadow: 3px 3px 0 #1a1a2e;
-            border-radius: 20px;
-            border-top-left-radius: 6px;
-            padding: 12px 16px;
+            background: var(--cream);
+            border-radius: 24px;
+            border-top-left-radius: 8px;
+            padding: 14px 18px;
             max-width: 80%;
             font-size: 14px;
             font-weight: 600;
-            line-height: 1.65;
-            color: #1a1a2e;
+            line-height: 1.7;
+            color: var(--ink);
             white-space: pre-wrap;
-            word-break: break-word
+            word-break: break-word;
+            box-shadow: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
         }
 
         .msg.user .bubble {
-            background: #c9b3ff;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 6px
+            background: var(--lavender);
+            border-top-left-radius: 24px;
+            border-top-right-radius: 8px
         }
 
         .phase-tag {
             display: inline-block;
-            background: #ffe5b4;
-            color: #7a5000;
-            border: 2px solid #c88a00;
-            border-radius: 8px;
+            background: var(--sage);
+            color: #2f4326;
+            border-radius: 10px;
             font-size: 10px;
             font-weight: 900;
             letter-spacing: 0.8px;
             text-transform: uppercase;
-            padding: 2px 8px;
-            margin-bottom: 6px
+            padding: 4px 10px;
+            margin-bottom: 8px;
+            box-shadow: 2px 2px 5px var(--shadow-dark), -2px -2px 5px var(--shadow-light);
         }
 
         .bubble pre {
-            background: #1a1a2e;
-            border-radius: 12px;
-            padding: 12px;
-            margin: 8px 0;
+            background: var(--cream-deep);
+            border-radius: 16px;
+            padding: 14px;
+            margin: 10px 0;
             overflow-x: auto;
-            border: 2px solid #3a3a5e
+            box-shadow: inset 3px 3px 7px var(--shadow-dark), inset -3px -3px 7px var(--shadow-light);
         }
 
         .bubble pre code {
-            color: #e0d8ff;
+            color: var(--ink);
             font-family: 'Courier New', monospace;
             font-size: 12px;
             font-weight: 600
         }
 
         .bubble code {
-            background: #e8e0ff;
-            color: #4a1aaa;
-            padding: 1px 6px;
-            border-radius: 6px;
+            background: var(--lavender-deep);
+            color: #4a3e66;
+            padding: 2px 7px;
+            border-radius: 8px;
             font-family: 'Courier New', monospace;
             font-size: 12px;
             font-weight: 700
@@ -288,45 +431,44 @@
 
         .bubble pre code {
             background: none;
-            color: #e0d8ff;
             padding: 0
         }
 
         .analysis-card {
-            background: #e8f8ee;
-            border: 2px solid #2a8a4a;
-            border-radius: 12px;
-            padding: 8px 12px;
+            background: var(--sage);
+            border-radius: 14px;
+            padding: 9px 13px;
             font-size: 12px;
             font-weight: 700;
-            color: #0a5a2a;
-            margin-top: 8px
+            color: #2f4326;
+            margin-top: 10px;
+            box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light);
         }
 
         .security-box {
-            background: #fff5d6;
-            border: 2px solid #c88a00;
-            border-radius: 12px;
-            padding: 8px 12px;
+            background: var(--sky-deep);
+            border-radius: 14px;
+            padding: 9px 13px;
             font-size: 12px;
             font-weight: 700;
-            color: #7a5000;
-            margin-top: 8px
+            color: #2e4a52;
+            margin-top: 10px;
+            box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light);
         }
 
         .dots {
             display: flex;
-            gap: 5px;
+            gap: 6px;
             align-items: center;
             padding: 4px 0
         }
 
         .dot {
-            width: 8px;
-            height: 8px;
-            background: #c9b3ff;
+            width: 9px;
+            height: 9px;
+            background: var(--sky);
             border-radius: 50%;
-            border: 2px solid #7a4adc;
+            box-shadow: 2px 2px 5px var(--shadow-dark), -2px -2px 5px var(--shadow-light);
             animation: bop 1.2s ease-in-out infinite
         }
 
@@ -354,74 +496,308 @@
         }
 
         .input-area {
-            padding: 14px 24px 18px;
-            background: #f7f0ff;
-            border-top: 3px solid #1a1a2e;
+            padding: 16px 24px 22px;
+            background: transparent;
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: flex-end
         }
 
         textarea {
             flex: 1;
-            background: #fff;
-            border: 2.5px solid #1a1a2e;
-            box-shadow: 3px 3px 0 #1a1a2e;
-            border-radius: 18px;
-            padding: 12px 16px;
+            background: var(--cream);
+            border: none;
+            border-radius: 22px;
+            padding: 14px 18px;
             font-size: 14px;
             font-weight: 600;
             font-family: 'Nunito', sans-serif;
-            color: #1a1a2e;
+            color: var(--ink);
             resize: none;
-            min-height: 48px;
+            min-height: 50px;
             max-height: 180px;
             outline: none;
             line-height: 1.5;
-            transition: border-color 0.2s, box-shadow 0.2s
+            box-shadow: inset 3px 3px 8px var(--shadow-dark), inset -3px -3px 8px var(--shadow-light);
+            transition: box-shadow 0.25s
         }
 
         textarea::placeholder {
-            color: #aaa;
+            color: var(--ink-soft);
             font-weight: 600
         }
 
         textarea:focus {
-            border-color: #7a4adc;
-            box-shadow: 3px 3px 0 #7a4adc
+            box-shadow: inset 4px 4px 10px var(--shadow-dark), inset -4px -4px 10px var(--shadow-light), 0 0 0 3px var(--sky-deep);
         }
 
         .send-btn {
-            background: #c9b3ff;
-            border: 2.5px solid #1a1a2e;
-            box-shadow: 3px 3px 0 #1a1a2e;
-            border-radius: 16px;
-            width: 48px;
-            height: 48px;
+            background: linear-gradient(135deg, #cfe0c5 0%, var(--sage) 100%);
+            border-radius: 18px 22px 20px 24px;
+            width: 50px;
+            height: 50px;
             font-size: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.15s;
-            flex-shrink: 0
+            color: #2f4326;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light), inset 1px 2px 4px rgba(255, 255, 255, 0.6);
+        }
+
+        .send-btn::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 18%;
+            width: 30%;
+            height: 22%;
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 50%;
+            filter: blur(2px);
         }
 
         .send-btn:hover {
-            box-shadow: 2px 2px 0 #1a1a2e;
-            transform: translate(1px, 1px)
+            box-shadow: 3px 3px 8px var(--shadow-dark), -3px -3px 8px var(--shadow-light);
+            transform: translate(2px, 2px)
         }
 
         .send-btn:active {
-            box-shadow: none;
-            transform: translate(3px, 3px)
+            box-shadow: inset 3px 3px 8px var(--shadow-dark), inset -3px -3px 8px var(--shadow-light);
+            transform: translate(0, 0)
         }
 
         .send-btn:disabled {
-            background: #e0e0e0;
-            border-color: #bbb;
-            box-shadow: 2px 2px 0 #bbb;
+            background: var(--cream-deep);
+            color: var(--ink-soft);
+            box-shadow: inset 2px 2px 6px var(--shadow-dark), inset -2px -2px 6px var(--shadow-light);
             cursor: not-allowed
+        }
+
+        /* ===== Responsive breakpoints ===== */
+
+        /* Tablets / small laptops */
+        @media (max-width: 900px) {
+            .header {
+                padding: 14px 18px;
+                gap: 12px;
+            }
+
+            .logo-badge {
+                width: 46px;
+                height: 46px;
+            }
+
+            .logo-badge svg {
+                width: 24px;
+                height: 24px;
+            }
+
+            .header-title {
+                font-size: 19px;
+            }
+
+            .header-sub {
+                font-size: 12px;
+            }
+
+            .phase-bar {
+                padding: 6px 18px 14px;
+                gap: 8px;
+            }
+
+            .pill {
+                padding: 7px 14px;
+                font-size: 11px;
+            }
+
+            .layout {
+                padding: 0 16px 16px;
+                gap: 14px;
+            }
+
+            .sidebar {
+                width: 160px;
+                gap: 12px;
+            }
+
+            .sidebar-card {
+                padding: 12px 14px;
+                border-radius: 20px;
+            }
+
+            .chat-wrap {
+                border-radius: 26px;
+            }
+
+            .messages {
+                padding: 18px 18px;
+                gap: 14px;
+            }
+
+            .bubble {
+                max-width: 86%;
+                font-size: 13.5px;
+                padding: 12px 15px;
+            }
+
+            .input-area {
+                padding: 12px 16px 16px;
+                gap: 8px;
+            }
+        }
+
+        /* Mobile phones / narrow windows */
+        @media (max-width: 640px) {
+            .header {
+                padding: 12px 14px;
+                gap: 10px;
+            }
+
+            .logo-badge {
+                width: 42px;
+                height: 42px;
+            }
+
+            .logo-badge svg {
+                width: 22px;
+                height: 22px;
+            }
+
+            .header-title {
+                font-size: 17px;
+            }
+
+            .header-sub {
+                display: none;
+            }
+
+            .phase-bar {
+                padding: 4px 14px 12px;
+            }
+
+            .phase-label {
+                display: none;
+            }
+
+            .pill {
+                padding: 6px 11px;
+                font-size: 10px;
+                flex: 1;
+                text-align: center;
+            }
+
+            .layout {
+                flex-direction: column;
+                padding: 0 12px 12px;
+                gap: 12px;
+            }
+
+            .sidebar {
+                width: 100%;
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .sidebar-card {
+                flex: 1;
+                padding: 10px 12px;
+            }
+
+            .reset-btn {
+                width: auto;
+                padding: 0 16px;
+                margin-top: 0;
+                flex-shrink: 0;
+            }
+
+            .sidebar-title {
+                font-size: 10px;
+                margin-bottom: 4px;
+            }
+
+            .stat-row {
+                font-size: 11px;
+                margin-top: 2px;
+            }
+
+            .stat-row span {
+                font-size: 14px;
+            }
+
+            .chat-wrap {
+                border-radius: 22px;
+            }
+
+            .messages {
+                padding: 14px;
+                gap: 12px;
+            }
+
+            .avatar {
+                width: 34px;
+                height: 34px;
+            }
+
+            .bubble {
+                max-width: 88%;
+                font-size: 13px;
+                padding: 10px 13px;
+                border-radius: 18px;
+            }
+
+            .input-area {
+                padding: 10px 12px 14px;
+            }
+
+            textarea {
+                padding: 11px 14px;
+                font-size: 13.5px;
+                min-height: 44px;
+            }
+
+            .send-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 17px;
+            }
+        }
+
+        /* Very small phones */
+        @media (max-width: 380px) {
+            .sidebar-title {
+                display: none;
+            }
+
+            .sidebar-card {
+                padding: 8px 10px;
+            }
+
+            .header-title {
+                font-size: 15px;
+            }
+        }
+
+        /* Large desktops / wide screens */
+        @media (min-width: 1600px) {
+            .layout {
+                padding: 0 48px 32px;
+                gap: 28px;
+                max-width: 1800px;
+                margin: 0 auto;
+            }
+
+            .sidebar {
+                width: 250px;
+            }
+
+            .bubble {
+                font-size: 15px;
+            }
         }
     </style>
 </head>
@@ -429,11 +805,21 @@
 <body>
 
     <div class="header">
-        <div class="logo-badge">🛡️</div>
+        <div class="logo-badge">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2.5L19.5 5.5V11.2C19.5 16.1 16.4 19.9 12 21.5C7.6 19.9 4.5 16.1 4.5 11.2V5.5L12 2.5Z"
+                    fill="#ffffff" fill-opacity="0.92" />
+                <path d="M9 11.6L11.1 13.7L15.3 9" stroke="#7a8e6b" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </div>
         <div>
             <div class="header-title">Copium_AI</div>
             <div class="header-sub">The code-along mentor · stop vibing, start learning</div>
         </div>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode">
+            <span id="themeIcon">🌙</span>
+        </button>
     </div>
 
     <div class="phase-bar">
@@ -452,8 +838,8 @@
             </div>
             <div class="sidebar-card">
                 <div class="sidebar-title">🔌 Engine</div>
-                <div class="stat-row" style="font-size:12px;color:#4a3a7a">Gemini 2.5 Flash<br><span
-                        style="font-size:11px;color:#9a7aaa;font-weight:600">via Google Gemini API</span></div>
+                <div class="stat-row" style="font-size:12px;color:var(--ink-soft)">Gemini 2.5 Flash<br><span
+                        style="font-size:11px;color:var(--ink-soft);font-weight:600">via Google Gemini API</span></div>
             </div>
             <button class="reset-btn" onclick="resetSession()">🔄 New session</button>
         </div>
@@ -461,7 +847,13 @@
         <div class="chat-wrap">
             <div class="messages" id="messages">
                 <div class="msg ai">
-                    <div class="avatar">🛡️</div>
+                    <div class="avatar"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2.5L19.5 5.5V11.2C19.5 16.1 16.4 19.9 12 21.5C7.6 19.9 4.5 16.1 4.5 11.2V5.5L12 2.5Z"
+                                fill="#ffffff" fill-opacity="0.92" />
+                            <path d="M9 11.6L11.1 13.7L15.3 9" stroke="#7a8e6b" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg></div>
                     <div class="bubble">
                         <div class="phase-tag">Welcome</div>
                         Hey! I'm Copium_AI — your code mentor with zero tolerance for vibing 😤
@@ -483,6 +875,25 @@
     </div>
 
     <script>
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark');
+            document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
+            try { localStorage.setItem('copium-theme', isDark ? 'dark' : 'light'); } catch (e) { }
+        }
+
+        (function initTheme() {
+            let saved = null;
+            try { saved = localStorage.getItem('copium-theme'); } catch (e) { }
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (saved === 'dark' || (!saved && prefersDark)) {
+                document.body.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    const icon = document.getElementById('themeIcon');
+                    if (icon) icon.textContent = '☀️';
+                });
+            }
+        })();
+
         let history = [];
         let phase = 0, turns = 0, bypasses = 0;
 
@@ -565,7 +976,7 @@ SECURITY RULES:
             div.className = `msg ${role === 'user' ? 'user' : 'ai'}`;
             const av = document.createElement('div');
             av.className = 'avatar';
-            av.textContent = role === 'user' ? '👤' : '🛡️';
+            av.innerHTML = role === 'user' ? '👤' : '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.5L19.5 5.5V11.2C19.5 16.1 16.4 19.9 12 21.5C7.6 19.9 4.5 16.1 4.5 11.2V5.5L12 2.5Z" fill="#ffffff" fill-opacity="0.92"/><path d="M9 11.6L11.1 13.7L15.3 9" stroke="#7a8e6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
             const bub = document.createElement('div');
             bub.className = 'bubble';
             let html = content
@@ -597,7 +1008,7 @@ SECURITY RULES:
             const wrap = document.getElementById('messages');
             const div = document.createElement('div');
             div.className = 'msg ai'; div.id = 'loading-msg';
-            div.innerHTML = `<div class="avatar">🛡️</div><div class="bubble"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+            div.innerHTML = `<div class="avatar"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.5L19.5 5.5V11.2C19.5 16.1 16.4 19.9 12 21.5C7.6 19.9 4.5 16.1 4.5 11.2V5.5L12 2.5Z" fill="#ffffff" fill-opacity="0.92"/><path d="M9 11.6L11.1 13.7L15.3 9" stroke="#7a8e6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="bubble"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
             wrap.appendChild(div);
             wrap.scrollTop = wrap.scrollHeight;
         }
@@ -666,7 +1077,7 @@ SECURITY RULES:
             updatePhase(0);
             document.getElementById('messages').innerHTML = `
     <div class="msg ai">
-      <div class="avatar">🛡️</div>
+      <div class="avatar"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.5L19.5 5.5V11.2C19.5 16.1 16.4 19.9 12 21.5C7.6 19.9 4.5 16.1 4.5 11.2V5.5L12 2.5Z" fill="#ffffff" fill-opacity="0.92"/><path d="M9 11.6L11.1 13.7L15.3 9" stroke="#7a8e6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="bubble"><div class="phase-tag">New Session</div>Ready for your next code snippet! Drop it below. 💪</div>
     </div>`;
         }
